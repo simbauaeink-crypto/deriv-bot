@@ -18,8 +18,8 @@ app.listen(process.env.PORT || 8080, () => {
 
 // CONFIGURATION
 const APP_ID = 1089;
-const APP_ID = 1089;  // Use 1089 for testing, or your own App ID
-const API_TOKEN = 'cx2r0m91JYT1hTr'
+const API_TOKEN ='0UZnZUbzYb2viMw';
+let lastTradeTime = 0;
 // ================================================
 const ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=' + APP_ID);
 
@@ -54,8 +54,10 @@ ws.on('message', function(msg) {
     if (data.msg_type === 'tick') {
         const price = data.tick.quote;
      console.log("R_100 Price:", price);
-
 if (price > 454.50) {
+
+   if (Date.now() - lastTradeTime < 10000) return;
+   lastTradeTime = Date.now();
 
     console.log("BUY SIGNAL DETECTED");
 
