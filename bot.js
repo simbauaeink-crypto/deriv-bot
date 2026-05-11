@@ -9,7 +9,29 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Deriv Bot Running");
+    res.send(`
+        <html>
+        <head>
+            <title>Deriv Trading Bot</title>
+            <style>
+                body{
+                    background:black;
+                    color:lime;
+                    font-family:Arial;
+                    text-align:center;
+                    padding-top:100px;
+                }
+                h1{
+                    font-size:50px;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>🚀 Deriv Bot Live</h1>
+            <p>Trading bot connected successfully.</p>
+        </body>
+        </html>
+    `);
 });
 
 app.listen(process.env.PORT || 8080, () => {
