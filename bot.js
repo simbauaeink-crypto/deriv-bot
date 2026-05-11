@@ -5,7 +5,19 @@
 
 const WebSocket = require('ws');
 
-// ===== CONFIGURATION - YOU MUST EDIT THESE! =====
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send("Deriv Bot Running");
+});
+
+app.listen(process.env.PORT || 8080, () => {
+    console.log("Web server running");
+});
+
+// CONFIGURATION
+const APP_ID = 1089;
 const APP_ID = 1089;  // Use 1089 for testing, or your own App ID
 const API_TOKEN = 'cx2r0m91JYT1hTr'
 // ================================================
@@ -41,6 +53,26 @@ ws.on('message', function(msg) {
     // Handle price ticks (live market data)
     if (data.msg_type === 'tick') {
         const price = data.tick.quote;
+     console.log("R_100 Price:", price);
+
+if (price > 454.50) {
+
+    console.log("BUY SIGNAL DETECTED");
+
+    ws.send(JSON.stringify({
+        "buy": 1,
+        "price": 10,
+        "parameters": {
+            "amount": 1,
+            "basis": "stake",
+            "contract_type": "CALL",
+            "currency": "USD",
+            "duration": 1,
+            "duration_unit": "m",
+            "symbol": "R_100"
+        }
+    }));
+}   
         const time = new Date().toLocaleTimeString();
         console.log(`📈 ${time} | R_100 Price: ${price}`);
         
